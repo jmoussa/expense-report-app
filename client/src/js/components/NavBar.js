@@ -9,9 +9,9 @@ class NavBar extends Component {
   render() {
     return (
       <div>
-        <Navbar brand='Expense Report' left className="navbar">
-          <li><Link to="/">Input</Link></li>
-          <li><Link to="/output">Output</Link></li>
+        <Navbar brand='Expense Report' left className="navbar teal">
+          <li><Link className="link" to="/">Input</Link></li>
+          <li><Link className="link" to="/output">Output</Link></li>
         </Navbar>
         <div>
           <Route exact path="/" component={Input}/>

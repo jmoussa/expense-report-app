@@ -17,7 +17,7 @@ class FooterModule extends Component {
 			      <li><a className="grey-text text-lighten-3" href="www.gmail.com">Email</a></li>
 		      </ul>
 	      }
-	      className='example'>
+	      className='teal'>
 	  	    <h5 className="white-text">We're Here For You!</h5>
   		    <span className="grey-text text-lighten-4">Pretty sure some content should go here</span>
       </Footer> 
