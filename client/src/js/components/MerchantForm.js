@@ -56,9 +56,9 @@ class MerchantForm extends Component {
       <form onSubmit={this.handleMerchant.bind(this)}>
         <div className="inputForm">    
           <h3>Add a Merchant</h3>
-		      <Input type="text" value={this.props.storeName} onChange={this.handleChange.bind(this)} />
-		      <Input type="text" value={this.props.storeAddress} onChange={this.handleChange.bind(this)} />
-		      <Input type="text" value={this.props.storePhone} onChange={this.handleChange.bind(this)} />
+		      <Input label="Store Name" type="text" value={this.props.storeName} onChange={this.handleChange.bind(this)} />
+		      <Input label="Store Address" type="text" value={this.props.storeAddress} onChange={this.handleChange.bind(this)} />
+		      <Input label="Store Phone Number" type="text" value={this.props.storePhone} onChange={this.handleChange.bind(this)} />
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
         </div>
       </form>
