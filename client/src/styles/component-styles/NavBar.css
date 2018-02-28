@@ -1,4 +1,10 @@
-.navbar{
-  height:80px;
+div > .navbar{
+  height:74px;
   width:100%;
+  margin: 0px;
+  padding: 0px;
+}
+
+div > .navbar > li > .link {
+padding-top: 10px;
 }
