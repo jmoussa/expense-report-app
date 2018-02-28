@@ -2,6 +2,9 @@
 ## A personal project that I outfitted to also use for my database administration class
 
 Uses React.js, Node.js/Express, MySQL
+
+
+
 Created using create-react-app and express
 
 ### Client
