@@ -45,7 +45,7 @@ class CategoryForm extends Component {
       <form onSubmit={this.handleCategory.bind(this)}>
         <h3>Add a Category</h3>
         <div className="inputForm">
-		      <Input label="Merchant Department/Category" type="text" value={this.props.category} onChange={this.handleChange.bind(this)} />
+          <Input label="Merchant Department/Category" type="text" value={this.props.category} onChange={this.handleChange.bind(this)} />
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
         </div>
       </form>
