@@ -10,7 +10,7 @@ class CategoryForm extends Component {
       status: ''
     }
   }
-  
+
   handleChange(event){
     const state = this.state;
     state[event.target.name] = event.target.value;
@@ -35,11 +35,19 @@ class CategoryForm extends Component {
     fetch('http://127.0.0.1:3001/categories', sentData)
       .then(response => { return response.json();})
       .then(responseData => {console.log(responseData); return responseData;})
-      .then(data => {this.setState({"status" : data});console.log(this.state.status.status);}); 
+      .then(data => {
+        this.setState({"status" : data});
+        if(this.state.status.status === "category success"){
+          console.log("checking if ifFinished");
+          this.props.isFinished("success");
+          console.log("returning to form Controller");
+        }
+        
+        }
+      ); 
     
   }
-
-
+  
   render() {
     return (
       <form onSubmit={this.handleCategory.bind(this)}>

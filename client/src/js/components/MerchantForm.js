@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Button, Icon } from 'react-materialize';
 import '../../styles/component-styles/UserForm.css';
-import CategoryForm from './CategoryForm.js';
 
-var merchantSuccess = 0;
 class MerchantForm extends Component {
   constructor(props){
     super(props);
@@ -41,18 +39,20 @@ class MerchantForm extends Component {
     fetch('http://127.0.0.1:3001/', sentData)
       .then(response => { return response.json();})
       .then(responseData => {console.log(responseData); return responseData;})
-      .then(data => {this.setState({"status" : data});console.log(this.state.status.status);}); 
-    
-    merchantSuccess = 1;
-  }
-  render() {
-    let route = null;
-    if(merchantSuccess === 1){
-        route = <CategoryForm />;
-    }
+      .then(data => {
+          this.setState({"status" : data});
+          if(this.state.status.status === "merchant success"){
+            console.log("checking if isFinished");
+            this.props.isFinished("success");
+            console.log("returning to formController");
+          } 
+        }
+      )
       
+  }
+
+  render() {
     return (
-    <div>  
       <form onSubmit={this.handleMerchant.bind(this)}>
         <div className="inputForm">    
           <h3>Add a Merchant</h3>
@@ -62,8 +62,6 @@ class MerchantForm extends Component {
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
         </div>
       </form>
-      {route}
-    </div>  
     );
   }
 }

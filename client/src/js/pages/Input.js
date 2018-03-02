@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MerchantForm from '../components/MerchantForm.js';
+import FormController from '../components/FormController.js';
 import "../../styles/page-styles/Input.css";
 
 class Input extends Component {
@@ -8,7 +8,7 @@ class Input extends Component {
       <div className="Inputs">
         <h2>Input Merchant and Transaction Information</h2>
         <p>Limited to one transaction per merchant (no duplicate merchants)</p>
-        <MerchantForm />
+        <FormController />
       </div>
     );
   }
