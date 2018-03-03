@@ -41,24 +41,60 @@ app.get('/', function(req,res){
 */
 
 app.post('/', function(req,res){
-  var queryString = "INSERT INTO MERCHANT(storeName, storeAddress, storePhone) VALUES ('" + req.body.storeName +  "', '" + req.body.storeAddress + "', '" + req.body.storePhone + "');";
-  console.log(queryString + "\n");
-  connection.query(queryString, function(err, result){
+  var queryString = "INSERT INTO MERCHANT(storeName, storeAddress, storePhone) VALUES ?";
+  var values = [
+    [req.body.storeName, req.body.storeAddress, req.body.storePhone]
+  ];
+
+  connection.query(queryString, [values], function(err, result){
       if(err) throw err;
       console.log("Query Successful...");
-      
       res.send('{"status": "merchant success"}');
   });
 });
 
 app.post('/categories', function(req,res){
-  var queryString = "INSERT INTO CATEGORIES(category) VALUES ('" + req.body.category + "');";
-  console.log(queryString + "\n");
-  connection.query(queryString, function(err, result){
+  var queryString = "INSERT INTO CATEGORIES(category) VALUES ?"; 
+  var values = [
+    [req.body.category]
+  ];
+
+  connection.query(queryString, [values], function(err, result){
       if(err) throw err
       console.log("Query Successful...");
-      
       res.send('{"status": "category success"}');
+  });
+});
+
+app.post('/transactions', function(req,res){
+  var storeID;
+  var categoryID;
+
+  var query1 = "SELECT * FROM MERCHANT WHERE storeName = '" + req.body.storeName + "'";
+  var query2 = "SELECT * FROM CATEGORIES WHERE category = '" + req.body.category + "'";
+  var queryString = "INSERT INTO TRANSACTIONS(storeID, amount, date, categoryID) VALUES ?";
+  
+  connection.query(query1, function(err, result){
+      if (err) throw err;
+      storeID = result[0].mID;
+  });
+
+  connection.query(query2, function(err, result){
+      if (err) throw err;
+      categoryID = result[0].cID;
+      console.log("CategoryID = " + categoryID);
+      console.log("StoreID = " + storeID);
+      
+      //Final Query
+      var values = [
+        [storeID, req.body.amount, req.body.date, categoryID]
+      ];
+
+      connection.query(queryString, [values], function(err, result){
+        if(err) throw err;
+        console.log("Query Successful...");
+        res.send('{"status": "transaction success"}');
+      });
   });
 });
 

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import '../../styles/component-styles/UserForm.css';
-import CategoryForm from './CategoryForm.js';
-import MerchantForm from './MerchantForm.js';
+import CategoryForm from './CategoryForm';
+import MerchantForm from './MerchantForm';
+import TransactionForm from './TransactionForm';
+import {Redirect} from 'react-router';
+
 
 let CurrentForm = null;
 class FormController extends Component {
@@ -28,7 +31,9 @@ class FormController extends Component {
     }else if(this.state.form_num === 1){
       CurrentForm = <CategoryForm isFinished={this.completedForm.bind(this)} />;
     }else if(this.state.form_num === 2){
-      //render transaction form
+      CurrentForm = <TransactionForm isFinished={this.completedForm.bind(this)} />;
+    }else{
+      CurrentForm = <Redirect to="/output" />;
     }
 
     return (
