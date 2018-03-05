@@ -58,12 +58,15 @@ app.post('/categories', function(req,res){
   var values = [
     [req.body.category]
   ];
-
-  connection.query(queryString, [values], function(err, result){
+  if(req.body.category != ""){
+    connection.query(queryString, [values], function(err, result){
       if(err) throw err
       console.log("Query Successful...");
       res.send('{"status": "category success"}');
-  });
+    });
+  }else{
+    res.send('{"status": "category success"}');
+  }
 });
 
 app.post('/transactions', function(req,res){
@@ -95,6 +98,14 @@ app.post('/transactions', function(req,res){
         console.log("Query Successful...");
         res.send('{"status": "transaction success"}');
       });
+  });
+});
+
+app.post('/getCategories', function (req, res){
+  var query = 'SELECT category FROM CATEGORIES';
+  connection.query(query, function(err, rows, fields){
+    if(err) throw err;
+    res.send(rows);
   });
 });
 

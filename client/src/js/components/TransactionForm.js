@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon } from 'react-materialize';
+import { Input, Button, Icon, option } from 'react-materialize';
 import '../../styles/component-styles/UserForm.css';
-
+var arr = [];
+var opts;
 class TransactionForm extends Component {
   constructor(props){
     super(props);
@@ -10,10 +11,39 @@ class TransactionForm extends Component {
       amount: '',
       category: '',
       date: '',
+      opts: [],
       status: ''
     }
   }
-  
+  makeList(){
+    this.setState({opts: arr});
+    for(var i=0;i<arr.length;i++){
+      console.log("State = ", this.state.opts[i]);
+    }
+  }
+  componentWillMount(){
+    var sentData = {
+      method:'POST',
+      mode: 'cors',
+      headers: {
+        "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/json"
+      }
+    }
+    fetch('http://127.0.0.1:3001/getCategories', sentData)
+      .then(response =>{return response.json();})
+      .then(responseData => {
+          console.log("Response Data");
+          for(var i =0; i<responseData.length; i++){
+            console.log(responseData[i].category);
+            arr.push(responseData[i].category);
+          }
+          this.setState({opts: arr});
+          this.state.opts.map((cat)=><option key={cat} value={cat}>{cat}</option>);
+      });
+  }
+
   handleChange(event){
     const state = this.state;
     state[event.target.name] = event.target.value;
@@ -40,28 +70,29 @@ class TransactionForm extends Component {
     }
     fetch('http://127.0.0.1:3001/transactions', sentData)
       .then(response => { return response.json();})
-      .then(responseData => {console.log(responseData); return responseData;})
+      .then(responseData => {return responseData;})
       .then(data => {
           this.setState({"status" : data});
           if(this.state.status.status === "transaction success"){
-            console.log("checking if isFinished");
+            //console.log("checking if isFinished");
             this.props.isFinished("success");
-            console.log("returning to formController");
+            //console.log("returning to formController");
           } 
         }
       )
-      
   }
 
   render() {
     return (
       <form onSubmit={this.handleTransaction.bind(this)}>
         <div className="inputForm">    
-          <h3>Add a Merchant</h3>
+          <h3>Add a Transaction</h3>
           <Input label="Store Name" type="text" value={this.props.storeName} onChange={this.handleChange.bind(this)} />
           <Input label="Amount" type="text" value={this.props.amount} onChange={this.handleChange.bind(this)} />
           <Input label="Date" type="text" value={this.props.date} onChange={this.handleChange.bind(this)} />
-          <Input label="Category" type="text" value={this.props.category} onChange={this.handleChange.bind(this)} />
+          <Input label="Category" type="select" value={this.props.category} onChange={this.handleChange.bind(this)}> 
+          {this.state.opts.map((cat)=><option key={cat} value={cat}>{cat}</option>)}
+          </Input>
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
         </div>
       </form>
