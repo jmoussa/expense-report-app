@@ -109,5 +109,13 @@ app.post('/getCategories', function (req, res){
   });
 });
 
+app.post('/getStores', function (req, res){
+  var query = 'SELECT storeName FROM MERCHANT';
+  connection.query(query, function(err, rows, fields){
+    if(err) throw err;
+    res.send(rows);
+  });
+});
+
 app.listen(port);
 console.log("server started at localhost:3001");

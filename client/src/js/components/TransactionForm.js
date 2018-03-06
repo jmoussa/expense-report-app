@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Button, Icon, option } from 'react-materialize';
 import '../../styles/component-styles/UserForm.css';
-var arr = [];
-var opts;
+
 class TransactionForm extends Component {
   constructor(props){
     super(props);
@@ -12,13 +11,8 @@ class TransactionForm extends Component {
       category: '',
       date: '',
       opts: [],
+      stores: [],
       status: ''
-    }
-  }
-  makeList(){
-    this.setState({opts: arr});
-    for(var i=0;i<arr.length;i++){
-      console.log("State = ", this.state.opts[i]);
     }
   }
   componentWillMount(){
@@ -31,16 +25,32 @@ class TransactionForm extends Component {
         "Content-Type": "application/json"
       }
     }
+    var arr = [];
+    var arr2 = [];
     fetch('http://127.0.0.1:3001/getCategories', sentData)
       .then(response =>{return response.json();})
       .then(responseData => {
+          
           console.log("Response Data");
           for(var i =0; i<responseData.length; i++){
             console.log(responseData[i].category);
             arr.push(responseData[i].category);
           }
           this.setState({opts: arr});
-          this.state.opts.map((cat)=><option key={cat} value={cat}>{cat}</option>);
+          //this.state.opts.map((cat)=><option key={cat} value={cat}>{cat}</option>);
+      });
+
+    fetch('http://127.0.0.1:3001/getStores', sentData)
+      .then(response =>{return response.json();})
+      .then(responseData => {
+          
+          console.log("Response Data");
+          for(var i =0; i<responseData.length; i++){
+            console.log(responseData[i].storeName);
+            arr2.push(responseData[i].storeName);
+          }
+          this.setState({stores: arr2});
+          //this.state.stores.map((cat)=><option key={cat} value={cat}>{cat}</option>);
       });
   }
 
@@ -87,11 +97,13 @@ class TransactionForm extends Component {
       <form onSubmit={this.handleTransaction.bind(this)}>
         <div className="inputForm">    
           <h3>Add a Transaction</h3>
-          <Input label="Store Name" type="text" value={this.props.storeName} onChange={this.handleChange.bind(this)} />
+          <Input label="Store Name" type="select" value={this.props.storeName} onChange={this.handleChange.bind(this)}>
+          {this.state.stores.map((x)=><option key={x} value={x}>{x}</option>)}
+          </Input>
           <Input label="Amount" type="text" value={this.props.amount} onChange={this.handleChange.bind(this)} />
           <Input label="Date" type="text" value={this.props.date} onChange={this.handleChange.bind(this)} />
           <Input label="Category" type="select" value={this.props.category} onChange={this.handleChange.bind(this)}> 
-          {this.state.opts.map((cat)=><option key={cat} value={cat}>{cat}</option>)}
+          {this.state.opts.map((x)=><option key={x} value={x}>{x}</option>)}
           </Input>
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
         </div>
