@@ -16,6 +16,7 @@ class TransactionForm extends Component {
     }
   }
   componentWillMount(){
+    console.log("-----------------TRANSACTION FORM---------------------");
     var sentData = {
       method:'POST',
       mode: 'cors',
@@ -31,43 +32,49 @@ class TransactionForm extends Component {
       .then(response =>{return response.json();})
       .then(responseData => {
           
-          console.log("Response Data");
+          //console.log("Response Data");
           for(var i =0; i<responseData.length; i++){
-            console.log(responseData[i].category);
+            //console.log(responseData[i].category);
             arr.push(responseData[i].category);
           }
           this.setState({opts: arr});
-          //this.state.opts.map((cat)=><option key={cat} value={cat}>{cat}</option>);
       });
 
     fetch('http://127.0.0.1:3001/getStores', sentData)
       .then(response =>{return response.json();})
       .then(responseData => {
           
-          console.log("Response Data");
+          //console.log("Response Data");
           for(var i =0; i<responseData.length; i++){
-            console.log(responseData[i].storeName);
+            //console.log(responseData[i].storeName);
             arr2.push(responseData[i].storeName);
           }
           this.setState({stores: arr2});
-          //this.state.stores.map((cat)=><option key={cat} value={cat}>{cat}</option>);
       });
   }
 
   handleChange(event){
-    const state = this.state;
-    state[event.target.name] = event.target.value;
-    this.setState(this.state);
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+    this.setState({[name]: value});
   }
 
   handleTransaction(event){
     event.preventDefault();
+    console.log("State: ", this.state);
+    console.log("Store: ", event.target[1].value);
+    console.log("Amount: ", event.target[2].value);
+    console.log("Date: ", event.target[3].value);
+    console.log("Category: ", event.target[4].value);
+    
     var form = JSON.stringify({
-         storeName : event.target[0].value,
-         amount : event.target[1].value,
-         date : event.target[2].value,
-         category : event.target[3].value
+         storeName : event.target[1].value,
+         amount : event.target[2].value,
+         date : event.target[3].value,
+         category : event.target[4].value
     });
+   
     var sentData = {
       method:'POST',
       mode: 'cors',
