@@ -26,22 +26,9 @@ const cors = require('cors');
 app.use(cors());
 app.options('*', cors());
 
-//Set default view engine 
-//Not needed since we're using react for the view layer
-/*
-var handlebars = require('express-handlebars').create({defaultLayout:'main'});
-app.engine('handlebars', handlebars.engine);
-app.set('view engine', 'handlebars');
-app.set('port', port);
-app.use(express.static(__dirname + '/public'));
-
-app.get('/', function(req,res){
-    return res.send({error: false, message:'hello'})
-});
-*/
-
-app.post('/', function(req,res){
-  console.log("--------------------MERCHANT------------------------");
+//handle merchant information (INSERT)
+app.post('/merchant', function(req,res){
+  //console.log("--------------------MERCHANT------------------------");
   if(req.body.storeName != ''){
     var queryString = "INSERT INTO MERCHANT(storeName, storeAddress, storePhone) VALUES ?";
     var values = [
@@ -58,8 +45,9 @@ app.post('/', function(req,res){
 
 });
 
+//handle category information (INSERT)
 app.post('/categories', function(req,res){
-  console.log("--------------------CATEGORIES------------------------");
+  //console.log("--------------------CATEGORIES------------------------");
   var queryString = "INSERT INTO CATEGORIES(category) VALUES ?"; 
   var values = [
     [req.body.category]
@@ -75,37 +63,11 @@ app.post('/categories', function(req,res){
   }
 });
 
-app.post('/products', function(req, res){
-  console.log("----------------------PRODUCTS--------------------------");
-  var storeID;
-  var transactionID;
-
-  var query2 = "SELECT * FROM TRANSACTIONS WHERE tID = (SELECT MAX(tID) FROM TRANSACTIONS)";
-  var queryString = "INSERT INTO PRODUCTS(productName, merchant_ID, transaction_ID) VALUES ?";
-  
-  connection.query(query2, function(err, result){
-      if (err) throw err;
-      storeID = result[0].storeID;
-      
-      connection.query(query2, function(error, resu){
-        if (error) throw error;
-        transactionID = resu[0].tID;
-        //Final Query
-        var values = [
-          [req.body.productName, storeID, transactionID]
-        ];
-
-          connection.query(queryString, [values], function(er, rs){
-            if(er) throw er;
-            console.log("Query Successful...");
-            res.send('{"status": "product success"}');
-          });
-      });
-  });
-});
-
+//handle transaction information [SELECT (translate names to foreign keys) & INSERT]
+//interpret store and category names to foreign keys
+//insert transaction statement with foreign keys instead of store/category name values
 app.post('/transactions', function(req,res){
-  console.log("---------------TRANSACTIONS-------------------");
+  //console.log("---------------TRANSACTIONS-------------------");
   var storeID;
   var categoryID;
 
@@ -137,6 +99,41 @@ app.post('/transactions', function(req,res){
   });
 });
 
+//handle individual product information (SELECT & INSERT)
+//get store's primary key as a foreign key
+//grab the transaction id
+app.post('/products', function(req, res){
+  //console.log("----------------------PRODUCTS--------------------------");
+  var storeID;
+  var transactionID;
+
+  var query2 = "SELECT * FROM TRANSACTIONS WHERE tID = (SELECT MAX(tID) FROM TRANSACTIONS)";
+  var queryString = "INSERT INTO PRODUCTS(productName, merchant_ID, transaction_ID) VALUES ?";
+  
+  connection.query(query2, function(err, result){
+      if (err) throw err;
+      storeID = result[0].storeID;
+      
+      connection.query(query2, function(error, resu){
+        if (error) throw error;
+        transactionID = resu[0].tID;
+        //Final Query
+        var values = [
+          [req.body.productName, storeID, transactionID]
+        ];
+
+          connection.query(queryString, [values], function(er, rs){
+            if(er) throw er;
+            console.log("Query Successful...");
+            res.send('{"status": "product success"}');
+          });
+      });
+  });
+});
+
+
+//Grab category data
+//Used to dynamically grab data for dropdown (TRANSACTION FORM)
 app.post('/getCategories', function (req, res){
   var query = 'SELECT category FROM CATEGORIES';
   connection.query(query, function(err, rows, fields){
@@ -145,6 +142,8 @@ app.post('/getCategories', function (req, res){
   });
 });
 
+//Grab store data
+//Used to dynamically grab data for dropdown (TRANSACTION FORM)
 app.post('/getStores', function (req, res){
   var query = 'SELECT storeName FROM MERCHANT';
   connection.query(query, function(err, rows, fields){
@@ -153,5 +152,62 @@ app.post('/getStores', function (req, res){
   });
 });
 
+app.post('/getMPC', function(req,res){
+  var query = 'SELECT * FROM TRANSACTIONS ORDER BY categoryID';
+  connection.query(query, function(err, rows, fields){
+    if(err) throw err;
+    /*
+    var data = [];
+    var dataIndex = 0;
+    var mID = 0;
+
+    for(var i=0;i<rows.length;i++){
+      if(i==0){
+        data[dataIndex] = {
+          value: ++mID,
+          color:"#F7464A",
+          label: rows[i].categoryID
+        }
+      }else if(rows[i].categoryID == rows[i-1].categoryID){
+        data[dataIndex].value = ++mID;
+      }else if(rows[i].categoryID != rows[i-1].categoryID){
+        dataIndex++;
+        mID = 0;
+        data[dataIndex] = {
+          value: ++mID,
+          color:"#F7364B",
+          label: rows[i].categoryID
+        }
+      }
+    }
+    */
+    var dataS = {
+      labels:[], 
+      datasets:[{
+        data:[]
+      }]
+    };
+    var idx = 0;
+    var mID = 0;
+
+    for(var i=0;i<rows.length;i++){
+      if(i==0){
+        dataS.labels[idx] = rows[i].categoryID
+        dataS.datasets[0].data[idx] = ++mID;
+      }else if(rows[i].categoryID == rows[i-1].categoryID){
+        dataS.datasets[0].data[idx] = ++mID;
+      }else if(rows[i].categoryID != rows[i-1].categoryID){
+        idx++;
+        mID = 0;
+        dataS.labels[idx] = rows[i].categoryID;
+        dataS.datasets[0].data[idx] = ++mID;
+      }
+    }
+
+    console.log(dataS);
+    res.send(dataS);
+  });
+});
+
 app.listen(port);
-console.log("server started at localhost:3001");
+console.log("server started at localhost:", port);

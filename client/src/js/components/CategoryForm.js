@@ -43,9 +43,7 @@ class CategoryForm extends Component {
           console.log("returning to form Controller");
         }
         
-        }
-      ); 
-    
+        }); 
   }
   
   render() {

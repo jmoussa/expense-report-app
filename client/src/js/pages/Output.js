@@ -15,13 +15,10 @@ class Output extends Component {
 
   changeView(event){
     this.setState({view: event.target.value});
-    console.log(this.state);
   }
 
   handleChange(event){
     const state = this.state;
-    console.log(event.target.name);
-    console.log(event.target.value);
     state[event.target.name] = event.target.value;
     this.setState(this.state);
   }
@@ -35,7 +32,7 @@ class Output extends Component {
       case 'expense':
         return <ExpenseOutput />;
       default:
-        return <div>Report</div>;
+        return <StoreOutput/>;
     }
   }
 

@@ -36,7 +36,7 @@ class MerchantForm extends Component {
         "Content-Type": "application/json"
       }
     }
-    fetch('http://127.0.0.1:3001/', sentData)
+    fetch('http://127.0.0.1:3001/merchant', sentData)
       .then(response => { return response.json();})
       .then(responseData => {console.log(responseData); return responseData;})
       .then(data => {

@@ -46,7 +46,6 @@ class ProductForm extends Component {
         
         }
       ); 
-    
   }
 
   

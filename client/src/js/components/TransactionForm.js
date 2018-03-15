@@ -74,7 +74,7 @@ class TransactionForm extends Component {
          date : event.target[3].value,
          category : event.target[4].value
     });
-   
+    
     var sentData = {
       method:'POST',
       mode: 'cors',
@@ -104,13 +104,15 @@ class TransactionForm extends Component {
       <form onSubmit={this.handleTransaction.bind(this)}>
         <div className="inputForm">    
           <h3>Add a Transaction</h3>
+          
           <Input label="Store Name" type="select" value={this.props.storeName} onChange={this.handleChange.bind(this)}>
-          {this.state.stores.map((x)=><option key={x} value={x}>{x}</option>)}
+            {this.state.stores.map((x)=><option key={x} value={x}>{x}</option>)}
           </Input>
           <Input label="Amount" type="text" value={this.props.amount} onChange={this.handleChange.bind(this)} />
           <Input label="Date" type="text" value={this.props.date} onChange={this.handleChange.bind(this)} />
+          
           <Input label="Category" type="select" value={this.props.category} onChange={this.handleChange.bind(this)}> 
-          {this.state.opts.map((x)=><option key={x} value={x}>{x}</option>)}
+            {this.state.opts.map((x)=><option key={x} value={x}>{x}</option>)}
           </Input>
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
         </div>
