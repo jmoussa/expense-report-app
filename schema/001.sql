@@ -20,20 +20,19 @@ CREATE TABLE `CATEGORIES` (
 
 CREATE TABLE `TRANSACTIONS` (
   `tID` int(11) NOT NULL AUTO_INCREMENT,
-  `store` varchar(120) NOT NULL DEFAULT '',
-  `amount` bigint(100) NOT NULL DEFAULT '0',
+  `amount` float NOT NULL DEFAULT '0',
   `date` date NOT NULL,
   `categoryID` int(11) NOT NULL,
-  `category` varchar(120) NOT NULL DEFAULT '',
   `storeID` int(11) NOT NULL,
+  `paymentType` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`tID`),
   KEY `categoryID` (`categoryID`),
   KEY `storeID` (`storeID`),
   CONSTRAINT `transactions_ibfk_1` FOREIGN KEY (`categoryID`) REFERENCES `CATEGORIES` (`cID`),
   CONSTRAINT `transactions_ibfk_2` FOREIGN KEY (`storeID`) REFERENCES `MERCHANT` (`mID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `PRODUCTS` (
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8; 
+ 
+ CREATE TABLE `PRODUCTS` (
   `pID` int(11) NOT NULL AUTO_INCREMENT,
   `productName` varchar(120) DEFAULT NULL,
   `transaction_ID` int(11) DEFAULT NULL,

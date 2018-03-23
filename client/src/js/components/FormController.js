@@ -22,7 +22,9 @@ class FormController extends Component {
     //console.log("form_num = " + this.state.form_num);
     //console.log("completed form finshed e = " + e);
   }
-
+  redir(e){
+    this.setState({form_num: 1});
+  }
   //I want to be able to change merchantSuccess inside of MerchantForm, CategoryForm etc
   //And have it retain it's value across the forms so the formcontroller can identify which one to render
   render() {
@@ -34,7 +36,7 @@ class FormController extends Component {
     }else if(this.state.form_num === 3){
       CurrentForm = <TransactionForm isFinished={this.completedForm.bind(this)} />;
     }else if(this.state.form_num === 4){
-      CurrentForm = <ProductForm isFinished={this.completedForm.bind(this)} />;
+      CurrentForm = <ProductForm isFinished={this.completedForm.bind(this)} redirect={this.redir.bind(this)}/>;
     }else{
       CurrentForm = <Redirect to="/output" />;
     }

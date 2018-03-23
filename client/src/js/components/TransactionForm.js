@@ -67,12 +67,15 @@ class TransactionForm extends Component {
     console.log("Amount: ", event.target[2].value);
     console.log("Date: ", event.target[3].value);
     console.log("Category: ", event.target[4].value);
-    
+    console.log("Payment: ", event.target[6].value);
+
+
     var form = JSON.stringify({
          storeName : event.target[1].value,
          amount : event.target[2].value,
          date : event.target[3].value,
-         category : event.target[4].value
+         category : event.target[4].value,
+         paymentType: event.target[6].value
     });
     
     var sentData = {
@@ -110,9 +113,14 @@ class TransactionForm extends Component {
           </Input>
           <Input label="Amount" type="text" value={this.props.amount} onChange={this.handleChange.bind(this)} />
           <Input label="Date" type="text" value={this.props.date} onChange={this.handleChange.bind(this)} />
-          
           <Input label="Category" type="select" value={this.props.category} onChange={this.handleChange.bind(this)}> 
             {this.state.opts.map((x)=><option key={x} value={x}>{x}</option>)}
+          </Input>
+          <Input label="Payment Type" type="select" value={this.props.paymentType} onChange={this.handleChange.bind(this)}>
+              <option key="cash" value="cash">Cash</option>
+              <option key="credit" value="credit">Credit</option>
+              <option key="debit" value="debit">Debit</option>
+              <option key="other" value="other">Other</option>
           </Input>
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
         </div>

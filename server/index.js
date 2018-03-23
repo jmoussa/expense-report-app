@@ -73,7 +73,7 @@ app.post('/transactions', function(req,res){
 
   var query1 = "SELECT * FROM MERCHANT WHERE storeName = '" + req.body.storeName + "'";
   var query2 = "SELECT * FROM CATEGORIES WHERE category = '" + req.body.category + "'";
-  var queryString = "INSERT INTO TRANSACTIONS(storeID, amount, date, categoryID) VALUES ?";
+  var queryString = "INSERT INTO TRANSACTIONS(storeID, amount, date, categoryID, paymentType) VALUES ?";
   
   connection.query(query1, function(err, result){
       if (err) throw err;
@@ -88,7 +88,7 @@ app.post('/transactions', function(req,res){
       
       //Final Query
       var values = [
-        [storeID, req.body.amount, req.body.date, categoryID]
+        [storeID, req.body.amount, req.body.date, categoryID, req.body.paymentType]
       ];
 
       connection.query(queryString, [values], function(err, result){
@@ -152,35 +152,11 @@ app.post('/getStores', function (req, res){
   });
 });
 
+//Get Merchant per Category
 app.post('/getMPC', function(req,res){
   var query = 'SELECT * FROM TRANSACTIONS ORDER BY categoryID';
   connection.query(query, function(err, rows, fields){
     if(err) throw err;
-    /*
-    var data = [];
-    var dataIndex = 0;
-    var mID = 0;
-
-    for(var i=0;i<rows.length;i++){
-      if(i==0){
-        data[dataIndex] = {
-          value: ++mID,
-          color:"#F7464A",
-          label: rows[i].categoryID
-        }
-      }else if(rows[i].categoryID == rows[i-1].categoryID){
-        data[dataIndex].value = ++mID;
-      }else if(rows[i].categoryID != rows[i-1].categoryID){
-        dataIndex++;
-        mID = 0;
-        data[dataIndex] = {
-          value: ++mID,
-          color:"#F7364B",
-          label: rows[i].categoryID
-        }
-      }
-    }
-    */
     var dataS = {
       labels:[], 
       datasets:[{
@@ -203,8 +179,7 @@ app.post('/getMPC', function(req,res){
         dataS.datasets[0].data[idx] = ++mID;
       }
     }
-
-    console.log(dataS);
+    console.log("Data Sent");
     res.send(dataS);
   });
 });

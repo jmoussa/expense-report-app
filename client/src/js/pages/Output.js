@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-materialize';
 import "../../styles/page-styles/Output.css";
-import StoreOutput from "../components/output/StoreOutput";
-import PriceOutput from "../components/output/PriceOutput";
-import ExpenseOutput from "../components/output/ExpenseOutput";
+import StoreCatsOutput from "../components/output/StoreCatsOutput";
 
 class Output extends Component {
   constructor(props){
@@ -26,13 +24,13 @@ class Output extends Component {
   renderView(){
     switch(this.state.view){
       case 'store':
-        return <StoreOutput />;
-      case 'price':
-        return <PriceOutput />;
-      case 'expense':
-        return <ExpenseOutput />;
+        return <StoreCatsOutput />;
+      //case 'price':
+        //return <PriceOutput />;
+      //case 'expense':
+        //return <ExpenseOutput />;
       default:
-        return <StoreOutput/>;
+        return <StoreCatsOutput/>;
     }
   }
 

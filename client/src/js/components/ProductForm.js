@@ -7,7 +7,8 @@ class ProductForm extends Component {
     super(props);
     this.state = {
       status: '',
-      productName: ''
+      productName: '',
+      redirect: false
     }
   }
 
@@ -16,6 +17,10 @@ class ProductForm extends Component {
     const value = target.value;
     const name = target.name;
     this.setState({[name]: value});
+  }
+  
+  redirect(event){
+    this.setState({redirect: true});
   }
 
   handleProduct(event){
@@ -40,7 +45,9 @@ class ProductForm extends Component {
       .then(responseData => {console.log(responseData); return responseData;})
       .then(data => {
         this.setState({"status" : data});
-        if(this.state.status.status === "product success"){
+        if(this.state.redirect === true){
+          this.props.redirect("success");
+        }else if(this.state.status.status === "product success"){
           this.props.isFinished("success");
         }
         
@@ -56,6 +63,7 @@ class ProductForm extends Component {
         <div className="inputForm">
           <Input label="Product Name" type="text" value={this.props.productName} onChange={this.handleChange.bind(this)} />
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
+          <Button waves='light' onClick={this.redirect.bind(this)}>Add Another</Button>
         </div>
       </form>
     );

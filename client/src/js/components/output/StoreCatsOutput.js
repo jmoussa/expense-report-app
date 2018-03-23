@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Doughnut } from 'react-chartjs-2';
-//import { Button } from 'react-materialize';
 
-class StoreOutput extends Component {
+class StoreCatsOutput extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -31,10 +30,11 @@ class StoreOutput extends Component {
   render() {
     return (
       <div>
+        <h4>Stores per Category</h4>
         { this.state.isLoading ? ( <p>Loading</p> ) : (<Doughnut data={this.state.chartData} />) }
       </div>
     );
   }
 }
 
-export default StoreOutput;
+export default StoreCatsOutput;
