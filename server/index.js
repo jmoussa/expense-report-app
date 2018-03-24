@@ -154,7 +154,7 @@ app.post('/getStores', function (req, res){
 
 //Get Merchant per Category
 app.post('/getMPC', function(req,res){
-  var query = 'SELECT * FROM TRANSACTIONS ORDER BY categoryID';
+  var query = 'SELECT TRANSACTIONS.categoryID, CATEGORIES.category FROM CATEGORIES INNER JOIN TRANSACTIONS ON CATEGORIES.cid=TRANSACTIONS.categoryID;';
   connection.query(query, function(err, rows, fields){
     if(err) throw err;
     var dataS = {
@@ -168,21 +168,20 @@ app.post('/getMPC', function(req,res){
 
     for(var i=0;i<rows.length;i++){
       if(i==0){
-        dataS.labels[idx] = rows[i].categoryID
+        dataS.labels[idx] = rows[i].category;
         dataS.datasets[0].data[idx] = ++mID;
       }else if(rows[i].categoryID == rows[i-1].categoryID){
         dataS.datasets[0].data[idx] = ++mID;
       }else if(rows[i].categoryID != rows[i-1].categoryID){
         idx++;
         mID = 0;
-        dataS.labels[idx] = rows[i].categoryID;
+        dataS.labels[idx] = rows[i].category;
         dataS.datasets[0].data[idx] = ++mID;
       }
     }
-    console.log("Data Sent");
+    console.log("--------Data Sent-------\n", dataS);
     res.send(dataS);
   });
 });
-
 app.listen(port);
 console.log("server started at localhost:", port);

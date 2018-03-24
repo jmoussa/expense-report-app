@@ -9,7 +9,7 @@ class StoreCatsOutput extends Component {
       isLoading: true
     }
   }
-
+  
   componentWillMount(){
     var sentData = {
       method: 'POST',
@@ -26,6 +26,7 @@ class StoreCatsOutput extends Component {
         this.setState({chartData: responseData, isLoading: false});
       });
   }
+
 
   render() {
     return (
