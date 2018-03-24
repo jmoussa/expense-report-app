@@ -51,8 +51,7 @@ class ProductForm extends Component {
           this.props.isFinished("success");
         }
         
-        }
-      ); 
+      }); 
   }
 
   
