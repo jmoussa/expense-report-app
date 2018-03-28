@@ -70,9 +70,11 @@ class MerchantForm extends Component {
           <h3>Add a Merchant</h3>
           <Input label="Store Name" type="text" value={this.props.storeName} onChange={this.handleChange.bind(this)} />
           <Input label="Store Address" type="text" value={this.props.storeAddress} onChange={this.handleChange.bind(this)} />
-          <Input label="City" type="text" value={this.props.city} onChange={this.handleChange.bind(this)} />
-          <Input label="Zip Code" type="text" value={this.props.zip} onChange={this.handleChange.bind(this)} />
-          <Input label="State" type="text" value={this.props.st} onChange={this.handleChange.bind(this)} />
+          <div className="location"> 
+            <Input label="City" type="text" value={this.props.city} onChange={this.handleChange.bind(this)} />
+            <Input label="Zip Code" type="text" value={this.props.zip} onChange={this.handleChange.bind(this)} />
+            <Input label="State" type="text" value={this.props.st} onChange={this.handleChange.bind(this)} />
+          </div>
           <Input label="Store Phone Number" type="text" value={this.props.storePhone} onChange={this.handleChange.bind(this)} />
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
         </div>

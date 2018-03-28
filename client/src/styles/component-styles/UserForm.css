@@ -1,5 +1,15 @@
 .inputForm{
-width: 40%;
+width: 60%;
 margin: auto;
 padding: 5%;
+}
+
+.inputForm > .location > .input-field{
+width: 33%;
+display: inline-block;
+margin: auto;
+padding-top: 4%;
+padding-bottom:3%;
+padding-left: 0.5%;
+padding-right: 0.5%;
 }
