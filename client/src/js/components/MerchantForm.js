@@ -8,6 +8,9 @@ class MerchantForm extends Component {
     this.state = {
       storeName: '',
       storeAddress: '',
+      city: '',
+      zip: '',
+      st: '',
       storePhone: '',
       status: ''
     }
@@ -21,10 +24,19 @@ class MerchantForm extends Component {
 
   handleMerchant(event){
     event.preventDefault();
+    
+    console.log("----NEW VALUES----");
+    console.log("City: ", event.target[2].value);
+    console.log("Zip: ", event.target[3].value);
+    console.log("State: ", event.target[4].value);
+
     var form = JSON.stringify({
          storeName : event.target[0].value,
          storeAddress : event.target[1].value,
-         storePhone : event.target[2].value
+         city : event.target[2].value,
+         zip : event.target[3].value,
+         st : event.target[4].value,
+         storePhone : event.target[4].value
     });
     var sentData = {
       method:'POST',
@@ -58,6 +70,9 @@ class MerchantForm extends Component {
           <h3>Add a Merchant</h3>
           <Input label="Store Name" type="text" value={this.props.storeName} onChange={this.handleChange.bind(this)} />
           <Input label="Store Address" type="text" value={this.props.storeAddress} onChange={this.handleChange.bind(this)} />
+          <Input label="City" type="text" value={this.props.city} onChange={this.handleChange.bind(this)} />
+          <Input label="Zip Code" type="text" value={this.props.zip} onChange={this.handleChange.bind(this)} />
+          <Input label="State" type="text" value={this.props.st} onChange={this.handleChange.bind(this)} />
           <Input label="Store Phone Number" type="text" value={this.props.storePhone} onChange={this.handleChange.bind(this)} />
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
         </div>

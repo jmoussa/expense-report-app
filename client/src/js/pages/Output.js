@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-materialize';
 import "../../styles/page-styles/Output.css";
-import StoreCatsOutput from "../components/output/StoreCatsOutput";
+import PieOutput from "../components/output/PieOutput";
 
 class Output extends Component {
   constructor(props){
@@ -24,13 +24,13 @@ class Output extends Component {
   renderView(){
     switch(this.state.view){
       case 'store':
-        return <StoreCatsOutput />;
+        return <PieOutput />;
       //case 'price':
         //return <PriceOutput />;
       //case 'expense':
         //return <ExpenseOutput />;
       default:
-        return <StoreCatsOutput/>;
+        return <PieOutput/>;
     }
   }
 

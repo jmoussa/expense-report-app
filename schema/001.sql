@@ -4,13 +4,15 @@ create database if not exists `finalProject`;
 use `finalProject`;
 
 CREATE TABLE `MERCHANT` (
-	`mID` int(11) NOT NULL AUTO_INCREMENT,
-	`storeName` varchar(120) DEFAULT NULL,
-	`storeAddress` varchar(255) DEFAULT NULL,
-	`storePhone` varchar(10) DEFAULT NULL,
-	PRIMARY KEY (`mID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
+  `mID` int(11) NOT NULL AUTO_INCREMENT,
+  `storeName` varchar(120) DEFAULT NULL,
+  `storeAddress` varchar(255) DEFAULT NULL,
+  `storePhone` varchar(10) DEFAULT NULL,
+  `zipcode` varchar(9) DEFAULT NULL,
+  PRIMARY KEY (`mID`),
+  KEY `zipcode` (`zipcode`),
+  CONSTRAINT `merchant_ibfk_1` FOREIGN KEY (`zipcode`) REFERENCES `LOCATIONS` (`zipcode`)
+) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `CATEGORIES` (
   `cID` int(11) NOT NULL AUTO_INCREMENT,
@@ -43,3 +45,11 @@ CREATE TABLE `TRANSACTIONS` (
   CONSTRAINT `products_ibfk_1` FOREIGN KEY (`transaction_ID`) REFERENCES `TRANSACTIONS` (`tID`),
   CONSTRAINT `products_ibfk_2` FOREIGN KEY (`merchant_ID`) REFERENCES `MERCHANT` (`mID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `LOCATIONS` (
+  `zipcode` varchar(10) NOT NULL,
+  `city` varchar(255) NOT NULL,
+  `state` varchar(35) NOT NULL,
+  PRIMARY KEY (`zipcode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

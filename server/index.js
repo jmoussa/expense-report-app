@@ -30,19 +30,28 @@ app.options('*', cors());
 app.post('/merchant', function(req,res){
   //console.log("--------------------MERCHANT------------------------");
   if(req.body.storeName != ''){
-    var queryString = "INSERT INTO MERCHANT(storeName, storeAddress, storePhone) VALUES ?";
+    var queryString = "INSERT INTO MERCHANT(storeName, storeAddress, zipcode, storePhone) VALUES ?";
+    var queryString2 = "INSERT INTO LOCATIONS(zipcode, city, state) VALUES ?";
     var values = [
-      [req.body.storeName, req.body.storeAddress, req.body.storePhone]
+      [req.body.storeName, req.body.storeAddress, req.body.zip, req.body.storePhone]
     ];
+    var values2 = [
+      [req.body.zipcode, req.body.city, req.body.st]
+    ];
+
     connection.query(queryString, [values], function(err, result){
         if(err) throw err;
-        console.log("Query Successful...");
-        res.send('{"status": "merchant success"}');
+        console.log("MERCHANT Query Successful...");i
+        
+        connection.query(queryString2, [values2], function(err, result){
+            if(err) throw err;
+            console.log("LOCATIONS Query Successful...");i
+            res.send('{"status": "merchant success"}');
+        });   
     });
   }else{
     res.send('{"status": "merchant success"}');
   }
-
 });
 
 //handle category information (INSERT)
@@ -83,8 +92,8 @@ app.post('/transactions', function(req,res){
   connection.query(query2, function(err, result){
       if (err) throw err;
       categoryID = result[0].cID;
-      console.log("CategoryID = " + categoryID);
-      console.log("StoreID = " + storeID);
+      //console.log("CategoryID = " + categoryID);
+      //console.log("StoreID = " + storeID);
       
       //Final Query
       var values = [
@@ -153,6 +162,7 @@ app.post('/getStores', function (req, res){
 });
 
 //Get Merchant per Category
+//Format Data for react-chartjs-2's Doughnut Chart
 app.post('/getMPC', function(req,res){
   var query = 'SELECT TRANSACTIONS.categoryID, CATEGORIES.category FROM CATEGORIES INNER JOIN TRANSACTIONS ON CATEGORIES.cid=TRANSACTIONS.categoryID;';
   connection.query(query, function(err, rows, fields){
@@ -179,7 +189,6 @@ app.post('/getMPC', function(req,res){
         dataS.datasets[0].data[idx] = ++mID;
       }
     }
-    console.log("--------Data Sent-------\n", dataS);
     res.send(dataS);
   });
 });
