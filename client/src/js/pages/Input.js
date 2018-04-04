@@ -7,7 +7,6 @@ class Input extends Component {
     return (
       <div className="Inputs">
         <h2>Input Merchant and Transaction Information</h2>
-        <p>Limited to one transaction per merchant (no duplicate merchants)</p>
         <FormController />
       </div>
     );
