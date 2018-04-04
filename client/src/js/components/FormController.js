@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../styles/component-styles/UserForm.css';
+import {Button} from 'react-materialize';
 import CategoryForm from './CategoryForm';
 import MerchantForm from './MerchantForm';
 import TransactionForm from './TransactionForm';
@@ -22,9 +23,30 @@ class FormController extends Component {
     //console.log("form_num = " + this.state.form_num);
     //console.log("completed form finshed e = " + e);
   }
+
+  navi(e){
+    switch(e.target.value){
+      case 'merchant':
+        this.setState({form_num: 1});
+        break;
+      case 'category':
+        this.setState({form_num: 2});
+        break;
+      case 'transaction':
+        this.setState({form_num: 3});
+        break;
+      case 'product':
+        this.setState({form_num: 4});
+        break;
+      default:
+        this.setState({form_num: 1});
+        break;
+    }
+  }
   redir(e){
     this.setState({form_num: 1});
   }
+
   //I want to be able to change merchantSuccess inside of MerchantForm, CategoryForm etc
   //And have it retain it's value across the forms so the formcontroller can identify which one to render
   render() {
@@ -42,7 +64,13 @@ class FormController extends Component {
     }
 
     return (
-      <div>{CurrentForm}</div>
+      <div>
+        <Button className='btn' value="merchant" onClick={this.navi.bind(this)}>Merchant Info</Button>
+        <Button className='btn' value="category" onClick={this.navi.bind(this)}>Category</Button>
+        <Button className='btn' value="transaction" onClick={this.navi.bind(this)}>Transaction</Button>
+        <Button className='btn' value="product" onClick={this.navi.bind(this)}>Items</Button>
+        {CurrentForm}
+      </div>
     );
   }
 }
