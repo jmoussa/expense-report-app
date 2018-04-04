@@ -4,12 +4,6 @@ var bodyParser = require('body-parser');
 var app = express();
 var port = 3001;
 
-
-var color = '#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) && (lor.length == 6) ?  lor : co(lor); })('');
-var color2 = '#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) && (lor.length == 6) ?  lor : co(lor); })('');
-
-  console.log(color);
-  console.log(color2);
 //Connect to database
 var connection = mysql.createConnection({
   host:'localhost',
@@ -47,11 +41,11 @@ app.post('/merchant', function(req,res){
 
     connection.query(queryString, [values], function(err, result){
         if(err) throw err;
-        console.log("MERCHANT Query Successful...");i
+        //console.log("MERCHANT Query Successful...");i
         
         connection.query(queryString2, [values2], function(err, result){
             if(err) throw err;
-            console.log("LOCATIONS Query Successful...");i
+            //console.log("LOCATIONS Query Successful...");i
             res.send('{"status": "merchant success"}');
         });   
     });
@@ -70,7 +64,7 @@ app.post('/categories', function(req,res){
   if(req.body.category != ""){
     connection.query(queryString, [values], function(err, result){
       if(err) throw err
-      console.log("Query Successful...");
+      //console.log("Query Successful...");
       res.send('{"status": "category success"}');
     });
   }else{
@@ -110,7 +104,7 @@ app.post('/transactions', function(req,res){
 
       connection.query(queryString, [values], function(err, result){
         if(err) throw err;
-        console.log("Query Successful...");
+        //console.log("Query Successful...");
         res.send('{"status": "transaction success"}');
       });
   });
@@ -141,7 +135,7 @@ app.post('/products', function(req, res){
 
           connection.query(queryString, [values], function(er, rs){
             if(er) throw er;
-            console.log("Query Successful...");
+            //console.log("Query Successful...");
             res.send('{"status": "product success"}');
           });
       });
@@ -207,7 +201,10 @@ app.post('/getMPC', function(req,res){
 
 //Grab all transaction data
 app.post('/getAll', function(req,res){
-  var query = "SELECT merchant.`storeName`, merchant.`storePhone`, FORMAT(transactions.`amount`, 2) AS amount, transactions.`date`, transactions.`paymentType` FROM TRANSACTIONS INNER JOIN MERCHANT ON TRANSACTIONS.storeID=MERCHANT.mID ORDER BY transactions.`date` DESC;" 
+  var choice = req.body.sort ? req.body.sort : 'transactions.`date` DESC';
+
+  var query = "SELECT merchant.`storeName`, merchant.`storePhone`, FORMAT(transactions.`amount`, 2) AS amount, transactions.`date`, transactions.`paymentType` FROM TRANSACTIONS INNER JOIN MERCHANT ON TRANSACTIONS.storeID=MERCHANT.mID ORDER BY " + choice + ";"; 
+  
   connection.query(query, function(err, rows, fields){
     if(err) throw err;
     res.send(rows);

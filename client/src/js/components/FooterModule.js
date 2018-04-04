@@ -12,9 +12,9 @@ class FooterModule extends Component {
 	      }
 	      links={
 		      <ul>
-			      <li><a className="grey-text text-lighten-3" href="www.facebook.com">Facebook</a></li>
-			      <li><a className="grey-text text-lighten-3" href="www.instagram.com">Instagram</a></li>
-			      <li><a className="grey-text text-lighten-3" href="www.gmail.com">Email</a></li>
+			      <li><a className="grey-text text-lighten-3" href="https://facebook.com">Facebook</a></li>
+			      <li><a className="grey-text text-lighten-3" href="http://instagram.com">Instagram</a></li>
+			      <li><a className="grey-text text-lighten-3" href="https://gmail.com">Email</a></li>
 		      </ul>
 	      }
 	      className='teal'>

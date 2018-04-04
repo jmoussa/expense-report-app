@@ -16,7 +16,6 @@ class TransactionForm extends Component {
     }
   }
   componentWillMount(){
-    console.log("-----------------TRANSACTION FORM---------------------");
     var sentData = {
       method:'POST',
       mode: 'cors',
@@ -62,12 +61,12 @@ class TransactionForm extends Component {
 
   handleTransaction(event){
     event.preventDefault();
-    console.log("State: ", this.state);
-    console.log("Store: ", event.target[1].value);
-    console.log("Amount: ", event.target[2].value);
-    console.log("Date: ", event.target[3].value);
-    console.log("Category: ", event.target[4].value);
-    console.log("Payment: ", event.target[6].value);
+    //console.log("State: ", this.state);
+    //console.log("Store: ", event.target[1].value);
+    //console.log("Amount: ", event.target[2].value);
+    //console.log("Date: ", event.target[3].value);
+    //console.log("Category: ", event.target[4].value);
+    //console.log("Payment: ", event.target[6].value);
 
 
     var form = JSON.stringify({

@@ -25,10 +25,10 @@ class MerchantForm extends Component {
   handleMerchant(event){
     event.preventDefault();
     
-    console.log("----NEW VALUES----");
-    console.log("City: ", event.target[2].value);
-    console.log("Zip: ", event.target[3].value);
-    console.log("State: ", event.target[4].value);
+    //console.log("----NEW VALUES----");
+    //console.log("City: ", event.target[2].value);
+    //console.log("Zip: ", event.target[3].value);
+    //console.log("State: ", event.target[4].value);
 
     var form = JSON.stringify({
          storeName : event.target[0].value,
@@ -50,13 +50,11 @@ class MerchantForm extends Component {
     }
     fetch('http://127.0.0.1:3001/merchant', sentData)
       .then(response => { return response.json();})
-      .then(responseData => {console.log(responseData); return responseData;})
+      .then(responseData => {return responseData;})
       .then(data => {
           this.setState({"status" : data});
           if(this.state.status.status === "merchant success"){
-            console.log("checking if isFinished");
             this.props.isFinished("success");
-            console.log("returning to formController");
           } 
         }
       )

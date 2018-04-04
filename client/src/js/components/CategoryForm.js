@@ -34,13 +34,11 @@ class CategoryForm extends Component {
     }
     fetch('http://127.0.0.1:3001/categories', sentData)
       .then(response => { return response.json();})
-      .then(responseData => {console.log(responseData); return responseData;})
+      .then(responseData => {return responseData;})
       .then(data => {
         this.setState({"status" : data});
         if(this.state.status.status === "category success"){
-          console.log("checking if ifFinished");
           this.props.isFinished("success");
-          console.log("returning to form Controller");
         }
         
         }); 

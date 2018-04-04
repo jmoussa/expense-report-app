@@ -25,7 +25,7 @@ class ProductForm extends Component {
 
   handleProduct(event){
     event.preventDefault();
-    console.log("--------------PRODUCTS FORM--------------");
+    //console.log("--------------PRODUCTS FORM--------------");
 
     var form = JSON.stringify({
          productName : event.target[0].value
@@ -42,7 +42,7 @@ class ProductForm extends Component {
     }
     fetch('http://127.0.0.1:3001/products', sentData)
       .then(response => { return response.json();})
-      .then(responseData => {console.log(responseData); return responseData;})
+      .then(responseData => {return responseData;})
       .then(data => {
         this.setState({"status" : data});
         if(this.state.redirect === true){

@@ -7,9 +7,15 @@ td{
   padding-top:1px;
   padding-bottom:1px;
 }
-table, td, th {
+tbody, td{
   border: 1px solid #333;
   text-align: center;
+}
+.butn {
+  width: 100%;
+  height: 100%;
+  margin:0px;
+  padding:0px;
 }
 #name{
   text-align: left;
