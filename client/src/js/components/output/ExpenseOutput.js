@@ -50,7 +50,7 @@ class ExpenseOutput extends Component {
       }
     }
 
-    fetch("http://127.0.0.1:3000/getAll", sentData)
+    fetch("http://127.0.0.1:3001/getAll", sentData)
       .then(response => {return response.json();})
       .then(responseData => {
         this.setState({expenseData: responseData});

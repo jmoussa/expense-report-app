@@ -62,7 +62,7 @@ class ProductForm extends Component {
         <div className="inputForm">
           <Input label="Product Name" type="text" value={this.props.productName} onChange={this.handleChange.bind(this)} />
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
-          <Button waves='light' onClick={this.redirect.bind(this)}>Add Another</Button>
+          <Button waves='light' onClick={this.redirect.bind(this)}>Return to Start</Button>
         </div>
       </form>
     );

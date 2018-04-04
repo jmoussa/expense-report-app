@@ -1,3 +1,4 @@
+var path = require('path');
 var express = require('express');
 var mysql = require('mysql');
 var bodyParser = require('body-parser');
@@ -25,6 +26,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 const cors = require('cors');
 app.use(cors());
 app.options('*', cors());
+
 
 //handle merchant information (INSERT)
 app.post('/merchant', function(req,res){

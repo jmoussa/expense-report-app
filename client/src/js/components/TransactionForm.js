@@ -116,10 +116,10 @@ class TransactionForm extends Component {
             {this.state.opts.map((x)=><option key={x} value={x}>{x}</option>)}
           </Input>
           <Input label="Payment Type" type="select" value={this.props.paymentType} onChange={this.handleChange.bind(this)}>
-              <option key="cash" value="cash">Cash</option>
-              <option key="credit" value="credit">Credit</option>
-              <option key="debit" value="debit">Debit</option>
-              <option key="other" value="other">Other</option>
+              <option key="cash" value="Cash">Cash</option>
+              <option key="credit" value="Credit">Credit</option>
+              <option key="debit" value="Debit">Debit</option>
+              <option key="other" value="Other">Other</option>
           </Input>
           <Button type="submit" waves='light'>Submit<Icon left>done</Icon></Button>
         </div>
