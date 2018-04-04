@@ -4,6 +4,12 @@ var bodyParser = require('body-parser');
 var app = express();
 var port = 3001;
 
+
+var color = '#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) && (lor.length == 6) ?  lor : co(lor); })('');
+var color2 = '#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) && (lor.length == 6) ?  lor : co(lor); })('');
+
+  console.log(color);
+  console.log(color2);
 //Connect to database
 var connection = mysql.createConnection({
   host:'localhost',
@@ -82,7 +88,7 @@ app.post('/transactions', function(req,res){
 
   var query1 = "SELECT * FROM MERCHANT WHERE storeName = '" + req.body.storeName + "'";
   var query2 = "SELECT * FROM CATEGORIES WHERE category = '" + req.body.category + "'";
-  var queryString = "INSERT INTO TRANSACTIONS(storeID, amount, date, categoryID, paymentType) VALUES ?";
+  var queryString = "INSERT INTO TRANSACTIONS(storeID, amount, date, categoryID, paymentType, isReturned) VALUES ?";
   
   connection.query(query1, function(err, result){
       if (err) throw err;
@@ -96,9 +102,11 @@ app.post('/transactions', function(req,res){
       //console.log("StoreID = " + storeID);
       
       //Final Query
-      var values = [
-        [storeID, req.body.amount, req.body.date, categoryID, req.body.paymentType]
-      ];
+      var values = req.body.amount<0 ? [
+        [storeID, req.body.amount, req.body.date, categoryID, req.body.paymentType, 1]
+      ] : [
+        [storeID, req.body.amount, req.body.date, categoryID, req.body.paymentType, 0]
+      ]
 
       connection.query(queryString, [values], function(err, result){
         if(err) throw err;
@@ -170,7 +178,8 @@ app.post('/getMPC', function(req,res){
     var dataS = {
       labels:[], 
       datasets:[{
-        data:[]
+        data:[],
+        backgroundColor:[]
       }]
     };
     var idx = 0;
@@ -179,6 +188,7 @@ app.post('/getMPC', function(req,res){
     for(var i=0;i<rows.length;i++){
       if(i==0){
         dataS.labels[idx] = rows[i].category;
+        dataS.datasets[0].backgroundColor[idx] = '#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) && (lor.length == 6) ?  lor : co(lor); })('');
         dataS.datasets[0].data[idx] = ++mID;
       }else if(rows[i].categoryID == rows[i-1].categoryID){
         dataS.datasets[0].data[idx] = ++mID;
@@ -186,11 +196,25 @@ app.post('/getMPC', function(req,res){
         idx++;
         mID = 0;
         dataS.labels[idx] = rows[i].category;
+        dataS.datasets[0].backgroundColor[idx] = '#' + (function co(lor){   return (lor += [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)]) && (lor.length == 6) ?  lor : co(lor); })('');
         dataS.datasets[0].data[idx] = ++mID;
       }
     }
     res.send(dataS);
   });
 });
-app.listen(port);
-console.log("server started at localhost:", port);
+
+
+//Grab all transaction data
+app.post('/getAll', function(req,res){
+  var query = "SELECT merchant.`storeName`, merchant.`storePhone`, FORMAT(transactions.`amount`, 2) AS amount, transactions.`date`, transactions.`paymentType` FROM TRANSACTIONS INNER JOIN MERCHANT ON TRANSACTIONS.storeID=MERCHANT.mID ORDER BY transactions.`date` DESC;" 
+  connection.query(query, function(err, rows, fields){
+    if(err) throw err;
+    res.send(rows);
+  });
+})
+
+
+app.listen(port, '0.0.0.0', function() {
+    console.log('Listening to port:  ' + port);
+});

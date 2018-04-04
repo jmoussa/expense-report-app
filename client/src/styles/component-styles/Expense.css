@@ -1,0 +1,19 @@
+.tableReport{
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 5%;
+}
+td{
+  padding-top:1px;
+  padding-bottom:1px;
+}
+table, td, th {
+  border: 1px solid #333;
+  text-align: center;
+}
+#name{
+  text-align: left;
+}
+#type, #price{
+  text-align: right;
+}
