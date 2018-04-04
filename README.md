@@ -39,4 +39,5 @@ To configure/start
 
 ### Schema/001.sql
 This holds all of the sql statements to setup the database.
+Mainly the setup for the tables.
 
