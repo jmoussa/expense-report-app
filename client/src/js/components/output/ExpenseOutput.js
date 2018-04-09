@@ -67,11 +67,11 @@ class ExpenseOutput extends Component {
           <thead>
             <tr>
               <th><Button className="butn">Idx</Button></th>
-              <th><Button className="butn" value="merchant.`storeName`" onClick={this.sortChoice.bind(this)}>Store</Button></th>
+              <th><Button className="butn" value="MERCHANT.`storeName`" onClick={this.sortChoice.bind(this)}>Store</Button></th>
               <th><Button className="butn" >Phone</Button></th>
-              <th><Button className="butn" value="transactions.`amount`" onClick={this.sortChoice.bind(this)}>Amount</Button></th>
-              <th><Button className="butn" value="transactions.`date`" onClick={this.sortChoice.bind(this)}>Date</Button></th>
-              <th><Button className="butn" value="transactions.`paymentType`" onClick={this.sortChoice.bind(this)}>Payment Type</Button></th>
+              <th><Button className="butn" value="TRANSACTIONS.`amount`" onClick={this.sortChoice.bind(this)}>Amount</Button></th>
+              <th><Button className="butn" value="TRANSACTIONS.`date`" onClick={this.sortChoice.bind(this)}>Date</Button></th>
+              <th><Button className="butn" value="TRANSACTIONS.`paymentType`" onClick={this.sortChoice.bind(this)}>Payment Type</Button></th>
             </tr>
           </thead>
         <tbody>

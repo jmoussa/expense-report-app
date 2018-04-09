@@ -1,3 +1,4 @@
+var config = require('./.config.js');
 var path = require('path');
 var express = require('express');
 var mysql = require('mysql');
@@ -7,10 +8,10 @@ var port = 3001;
 
 //Connect to database
 var connection = mysql.createConnection({
-  host:'localhost',
-  user: 'root',
-  password: '',
-  database: 'finalProject'
+  host: config.host,
+  user: config.user,
+  password: config.password,
+  database: config.database
 });
 
 connection.connect(function(err){
@@ -203,9 +204,9 @@ app.post('/getMPC', function(req,res){
 
 //Grab all transaction data
 app.post('/getAll', function(req,res){
-  var choice = req.body.sort ? req.body.sort : 'transactions.`date` DESC';
+  var choice = req.body.sort ? req.body.sort : 'TRANSACTIONS.`date` DESC';
 
-  var query = "SELECT merchant.`storeName`, merchant.`storePhone`, FORMAT(transactions.`amount`, 2) AS amount, transactions.`date`, transactions.`paymentType` FROM TRANSACTIONS INNER JOIN MERCHANT ON TRANSACTIONS.storeID=MERCHANT.mID ORDER BY " + choice + ";"; 
+  var query = "SELECT MERCHANT.`storeName`, MERCHANT.`storePhone`, FORMAT(TRANSACTIONS.`amount`, 2) AS amount, TRANSACTIONS.`date`, TRANSACTIONS.`paymentType` FROM TRANSACTIONS INNER JOIN MERCHANT ON TRANSACTIONS.storeID=MERCHANT.mID ORDER BY " + choice + ";"; 
   
   connection.query(query, function(err, rows, fields){
     if(err) throw err;
