@@ -1,8 +1,9 @@
 # Expense Report Web App
 ## A personal project that I outfitted to also use for my database administration class
-## Mainly used to learn ReactJS and Express APIs
 
 ReactJS, NodeJS/Express, MySQL
+
+Mainly used to learn ReactJS and Express APIs
 
 Front-end was made with create-react-app, back-end uses a basic Express API.
 
