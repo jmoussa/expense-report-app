@@ -1,14 +1,14 @@
 # Expense Report Web App
 ## A personal project that I outfitted to also use for my database administration class
+## Mainly used to learn ReactJS and Express APIs
 
-Uses React.js, Node.js/Express, MySQL
+ReactJS, NodeJS/Express, MySQL
 
+Front-end was made with create-react-app, back-end uses a basic Express API.
 
-
-Created using create-react-app and express
 
 ### Client
-This holds the front end data and forms that are used to communicate with the node server. More functionality coming soon (from the output side).
+This holds the front end data and forms that are used to communicate with the node server. The Output tab shows visualizations of the inputs and the data within the database. 
 
 
 
@@ -38,6 +38,5 @@ To configure/start
 ---
 
 ### Schema/001.sql
-This holds all of the sql statements to setup the database.
-Mainly the setup for the tables.
+This holds all of the sql statements to setup the database tables.
 
