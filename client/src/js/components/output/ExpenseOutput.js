@@ -72,6 +72,7 @@ class ExpenseOutput extends Component {
               <th><Button className="butn" value="TRANSACTIONS.`amount`" onClick={this.sortChoice.bind(this)}>Amount</Button></th>
               <th><Button className="butn" value="TRANSACTIONS.`date`" onClick={this.sortChoice.bind(this)}>Date</Button></th>
               <th><Button className="butn" value="TRANSACTIONS.`paymentType`" onClick={this.sortChoice.bind(this)}>Payment Type</Button></th>
+              <th><Button className="butn" value="PRODUCTS.`productName`" onClick={this.sortChoice.bind(this)}>Product Name</Button></th>
             </tr>
           </thead>
         <tbody>
@@ -83,6 +84,7 @@ class ExpenseOutput extends Component {
             <td id="price">$ {item.amount}</td>
             <td>{item.date}</td>
             <td id="type">{item.paymentType}</td>
+            <td id="product">{item.productName}</td>
           </tr>)}
         </tbody>
       </table> 

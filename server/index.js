@@ -206,7 +206,7 @@ app.post('/getMPC', function(req,res){
 app.post('/getAll', function(req,res){
   var choice = req.body.sort ? req.body.sort : 'TRANSACTIONS.`date` DESC';
 
-  var query = "SELECT MERCHANT.`storeName`, MERCHANT.`storePhone`, FORMAT(TRANSACTIONS.`amount`, 2) AS amount, TRANSACTIONS.`date`, TRANSACTIONS.`paymentType` FROM TRANSACTIONS INNER JOIN MERCHANT ON TRANSACTIONS.storeID=MERCHANT.mID ORDER BY " + choice + ";"; 
+  var query = "SELECT MERCHANT.`storeName`, MERCHANT.`storePhone`, FORMAT(TRANSACTIONS.`amount`, 2) AS amount, TRANSACTIONS.`date`, TRANSACTIONS.`paymentType`,PRODUCTS.`productName` FROM TRANSACTIONS JOIN MERCHANT ON TRANSACTIONS.storeID=MERCHANT.mID JOIN PRODUCTS ON TRANSACTIONS.tID=PRODUCTS.transaction_ID ORDER BY " + choice + ";"; 
   
   connection.query(query, function(err, rows, fields){
     if(err) throw err;
