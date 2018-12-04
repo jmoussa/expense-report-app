@@ -3,17 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "chart.js": "^2.3",
+    "chart.js": "^2.7.3",
     "history": "^4.7.2",
-    "mysql": "^2.15.0",
-    "react": "^16.2.0",
-    "react-chartjs-2": "^2.7.0",
-    "react-dom": "^16.2.0",
+    "mysql": "^2.16.0",
+    "react": "^16.6.3",
+    "react-chartjs-2": "^2.7.4",
+    "react-dom": "^16.6.3",
     "react-materialize": "^1.1.2",
-    "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.1",
-    "socket.io-client": "^2.0.4"
+    "socket.io-client": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
