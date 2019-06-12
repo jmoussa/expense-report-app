@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Icon, option } from 'react-materialize';
+import { Input, Button, Icon, DatePicker, option } from 'react-materialize';
 import '../../styles/component-styles/UserForm.css';
 
 class TransactionForm extends Component {
@@ -101,6 +101,7 @@ class TransactionForm extends Component {
       )
   }
 
+          //<DatePicker autoClose='true'/>
   render() {
     return (
       <form onSubmit={this.handleTransaction.bind(this)}>

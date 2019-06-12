@@ -32,16 +32,13 @@ class CategoryForm extends Component {
         "Content-Type": "application/json"
       }
     }
-    fetch('http://127.0.0.1:3001/categories', sentData)
-      .then(response => { return response.json();})
-      .then(responseData => {return responseData;})
-      .then(data => {
-        this.setState({"status" : data});
-        if(this.state.status.status === "category success"){
+    fetch('http://127.0.0.1:3001/api/createCategory', sentData)
+      .then(response => { 
+        if(response.name){
+          this.setState({'status': 'category success'})
           this.props.isFinished("success");
         }
-        
-        }); 
+      })
   }
   
   render() {
