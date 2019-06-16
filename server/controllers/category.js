@@ -10,7 +10,7 @@ var createCategory = (category) =>{
                 name: category.name
             }
         }).then(result=>{
-            if(result.name){
+            if(result && result.name){
                 resolve(result)
             }else{
                 Category.create(category).then(new_result=>{

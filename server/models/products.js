@@ -15,7 +15,7 @@ const Product = sequelize.define('product', {
     },
     name: {
         allowNull: false,
-        type: Sequelize.DECIMAL(10,2)
+        type: Sequelize.STRING,
     },
     transaction_id: {
         allowNull: false,

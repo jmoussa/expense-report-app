@@ -7,7 +7,7 @@ class ExpenseOutput extends Component {
     super(props);
     this.state = {
       expenseData: [],
-      toggle: false, //true = ASC false = DESC
+      toggle: 'ASC', //true = ASC false = DESC
       isLoading: true
     }
   }
@@ -15,7 +15,7 @@ class ExpenseOutput extends Component {
   componentWillMount(){
     //grab initial database values
     var sentData = {
-      method: 'POST',
+      method: 'GET',
       mode: 'cors',
       headers: {
         "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
@@ -23,7 +23,7 @@ class ExpenseOutput extends Component {
         "Content-Type": "application/json"
       }
     }
-    fetch('http://127.0.0.1:3001/getAll', sentData)
+    fetch('http://127.0.0.1:3001/api/getAll', sentData)
       .then(response => {return response.json();})
       .then(responseData => {
         this.setState({expenseData: responseData, isLoading: false});
@@ -31,31 +31,25 @@ class ExpenseOutput extends Component {
   }
   sortChoice(e){
     e.preventDefault();
-    //toggle state
-    this.setState({toggle: !this.state.toggle});
-    //transcribe toggle to SQL value
-    var toggle = this.state.toggle === false ? 'DESC' : 'ASC';
-    
-    var form = JSON.stringify({
-      sort: e.target.value + " " + toggle
-    });
+    this.setState({isLoading: true}) 
+    this.setState(prevState=>({
+      toggle: prevState.toggle === 'ASC' ? 'DESC' : 'ASC'
+    }))
     var sentData = {
-      method: 'POST',
+      method: 'GET',
       mode: 'cors',
-      body: form,
       headers: {
         "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
         "Access-Control-Allow-Origin": "*",
         "Content-Type": "application/json"
       }
     }
-
-    fetch("http://127.0.0.1:3001/getAll", sentData)
+    //console.log('TOGGLE ' + this.state.toggle)
+    fetch(`http://127.0.0.1:3001/api/getAll?sortOrder=${e.target.value}&toggle=${this.state.toggle}`, sentData)
       .then(response => {return response.json();})
       .then(responseData => {
-        this.setState({expenseData: responseData});
+        this.setState({expenseData: responseData, isLoading: false});
       });
-     
   }
 
   render() {
@@ -67,25 +61,24 @@ class ExpenseOutput extends Component {
           <thead>
             <tr>
               <th><Button className="butn">Idx</Button></th>
-              <th><Button className="butn" value="MERCHANT.`storeName`" onClick={this.sortChoice.bind(this)}>Store</Button></th>
-              <th><Button className="butn" >Phone</Button></th>
-              <th><Button className="butn" value="TRANSACTIONS.`amount`" onClick={this.sortChoice.bind(this)}>Amount</Button></th>
-              <th><Button className="butn" value="TRANSACTIONS.`date`" onClick={this.sortChoice.bind(this)}>Date</Button></th>
-              <th><Button className="butn" value="TRANSACTIONS.`paymentType`" onClick={this.sortChoice.bind(this)}>Payment Type</Button></th>
-              <th><Button className="butn" value="PRODUCTS.`productName`" onClick={this.sortChoice.bind(this)}>Product Name</Button></th>
+              <th><Button className="butn" value="merchant.store_name" onClick={this.sortChoice.bind(this)}>Store</Button></th>
+              <th><Button className="butn" value="transaction.amount" onClick={this.sortChoice.bind(this)}>Amount</Button></th>
+              <th><Button className="butn" value="transaction.date" onClick={this.sortChoice.bind(this)}>Date</Button></th>
+              <th><Button className="butn" value="product.name" onClick={this.sortChoice.bind(this)}>Product Name</Button></th>
+              <th><Button className="butn" value="category.name" onClick={this.sortChoice.bind(this)}>Category</Button></th>
             </tr>
           </thead>
         <tbody>
           {this.state.expenseData.map((item, i)=> 
-          <tr key={i}>
-            <td>{i+1}</td>
-            <td id="name">{item.storeName}</td>
-            <td>{item.storePhone}</td>
-            <td id="price">$ {item.amount}</td>
-            <td>{item.date}</td>
-            <td id="type">{item.paymentType}</td>
-            <td id="product">{item.productName}</td>
-          </tr>)}
+            <tr key={i}>
+              <td>{i+1}</td>
+              <td id="name">{item.productTransaction.transactionMerchant.store_name}</td>
+              <td id="price">$ {item.productTransaction.amount}</td>
+              <td>{item.productTransaction.date}</td>
+              <td id="product">{item.name}</td>
+              <td id="category">{item.productTransaction.transactionCategory.name}</td>
+            </tr>)
+          }
         </tbody>
       </table> 
       }

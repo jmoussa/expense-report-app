@@ -20,7 +20,7 @@ class CategoryForm extends Component {
   handleCategory(event){
     event.preventDefault();
     var form = JSON.stringify({
-         category : event.target[0].value
+      name: event.target[0].value
     });
     var sentData = {
       method:'POST',
@@ -34,9 +34,11 @@ class CategoryForm extends Component {
     }
     fetch('http://127.0.0.1:3001/api/createCategory', sentData)
       .then(response => { 
-        if(response.name){
+        return response.json()
+      }).then(res=>{
+        if(res.name){
           this.setState({'status': 'category success'})
-          this.props.isFinished("success");
+          this.props.isFinished('success');
         }
       })
   }

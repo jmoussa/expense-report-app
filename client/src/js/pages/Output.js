@@ -38,7 +38,7 @@ class Output extends Component {
   render() {
     return (
       <div>
-        <h2>Output/Visualizations</h2>
+        <h2>Visualizations</h2>
         <Button className="button" waves='light' name="view" value='store' onClick={this.handleChange.bind(this)}>Sort by Store</Button>
         <Button className="button" waves='light' name="view" value='expense' onClick={this.handleChange.bind(this)}>View All Reciepts</Button>
         {this.renderView()}

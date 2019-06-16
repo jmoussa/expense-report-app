@@ -10,6 +10,7 @@ class ProductForm extends Component {
       productName: '',
       redirect: false
     }
+    console.log('EXTRA STATE? ' + this.state.transactionResponse)
   }
 
   handleChange(event){
@@ -25,10 +26,10 @@ class ProductForm extends Component {
 
   handleProduct(event){
     event.preventDefault();
-    //console.log("--------------PRODUCTS FORM--------------");
+    console.log("--------------PRODUCTS FORM--------------");
 
     var form = JSON.stringify({
-         productName : event.target[0].value
+      productName : event.target[0].value
     });
     var sentData = {
       method:'POST',
@@ -40,18 +41,15 @@ class ProductForm extends Component {
         "Content-Type": "application/json"
       }
     }
-    fetch('http://127.0.0.1:3001/products', sentData)
-      .then(response => { return response.json();})
-      .then(responseData => {return responseData;})
-      .then(data => {
-        this.setState({"status" : data});
-        if(this.state.redirect === true){
-          this.props.redirect("success");
-        }else if(this.state.status.status === "product success"){
-          this.props.isFinished("success");
-        }
-        
-      }); 
+    fetch('http://127.0.0.1:3001/api/createProduct', sentData).then(data => {
+        return data.json()
+    }).then(product=>{
+      this.setState({'status' : 'product success'});
+      if(this.state.redirect === true){
+        this.props.redirect("success");
+        this.props.isFinished("success");
+      }
+    })
   }
 
   
