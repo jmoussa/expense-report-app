@@ -12,7 +12,7 @@ class StoreCatsOutput extends Component {
   
   componentWillMount(){
     var sentData = {
-      method: 'POST',
+      method: 'GET',
       mode: 'cors',
       headers: {
         "Access-Control-Allow-Headers": "Origin, Content-Type, Accept",
@@ -20,19 +20,22 @@ class StoreCatsOutput extends Component {
         "Content-Type": "application/json"
       }
     }
-    fetch('http://127.0.0.1:3001/getMPC', sentData)
-      .then(response => {return response.json();})
-      .then(responseData => {
+    fetch('http://127.0.0.1:3001/api/getTPC', sentData)
+      .then(response => {
+        return response.json() 
+      }).then(responseData => {
         this.setState({chartData: responseData, isLoading: false});
       });
   }
 
-
   render() {
     return (
       <div>
-        <h4>Stores per Category</h4>
+        <h4>Transactions By Category</h4>
+        <br></br>
         { this.state.isLoading ? ( <p>Loading</p> ) : (<Doughnut data={this.state.chartData} />) }
+        <br></br>
+        <br></br>
       </div>
     );
   }

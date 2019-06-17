@@ -1,24 +1,34 @@
-var config = require('./.config.js');
-var path = require('path');
-var express = require('express');
-var mysql = require('mysql');
-var bodyParser = require('body-parser');
-var app = express();
-var port = 3001;
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors')
+const helmet = require('helmet')
+const http = require('http')
+const app = express();
+const port = 3001;
 
-//Connect to database
-var connection = mysql.createConnection({
-  host: config.host,
-  user: config.user,
-  password: config.password,
-  database: config.database
-});
+app.use(cors())
+app.options('*', cors());
+app.set('trust proxy', true)
+app.use(helmet())
+app.disable('x-powered-by')
 
-connection.connect(function(err){
-    if(err) throw err;
-    console.log("You are now connected to the database");
-});
+//Parsers
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({extended:false}))
 
+const api  = require('./routes/api')
+app.use('/api', api)
+
+app.get('*', (req,res)=>{
+  res.status(400).send('NO ROUTES FOR THIS URL')
+})
+
+app.set('port', port)
+
+const server = http.createServer(app)
+server.listen(port, ()=>console.log(`Running on localhost: ${port}`))
+
+/*
 //Ready to parse json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -27,11 +37,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 const cors = require('cors');
 app.use(cors());
 app.options('*', cors());
+*/
 
 
+/*
 //handle merchant information (INSERT)
 app.post('/merchant', function(req,res){
-  //console.log("--------------------MERCHANT------------------------");
+  console.log("--------------------MERCHANT------------------------");
+  console.log('ZIPCODE: ' + req.body.zip);
   if(req.body.storeName != ''){
     var queryString = "INSERT INTO MERCHANT(storeName, storeAddress, zipcode, storePhone) VALUES ?";
     var queryString2 = "INSERT INTO LOCATIONS(zipcode, city, state) VALUES ?";
@@ -39,18 +52,17 @@ app.post('/merchant', function(req,res){
       [req.body.storeName, req.body.storeAddress, req.body.zip, req.body.storePhone]
     ];
     var values2 = [
-      [req.body.zipcode, req.body.city, req.body.st]
+      [req.body.zip, req.body.city, req.body.st]
     ];
 
-    connection.query(queryString, [values], function(err, result){
+    connection.query(queryString2, [values2], function(err, result){
         if(err) throw err;
         //console.log("MERCHANT Query Successful...");i
-        
-        connection.query(queryString2, [values2], function(err, result){
+        connection.query(queryString, [values], function(err, result){
             if(err) throw err;
             //console.log("LOCATIONS Query Successful...");i
             res.send('{"status": "merchant success"}');
-        });   
+        });
     });
   }else{
     res.send('{"status": "merchant success"}');
@@ -215,6 +227,7 @@ app.post('/getAll', function(req,res){
 })
 
 
-app.listen(port, '0.0.0.0', function() {
+app.listen(port, '0.0.0.0', ()=>{
     console.log('Listening to port:  ' + port);
 });
+*/

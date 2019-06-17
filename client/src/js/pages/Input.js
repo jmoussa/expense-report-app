@@ -6,7 +6,7 @@ class Input extends Component {
   render() {
     return (
       <div className="Inputs">
-        <h2>Input Merchant and Transaction Information</h2>
+        <h3>Input Transaction Information</h3>
         <FormController />
       </div>
     );

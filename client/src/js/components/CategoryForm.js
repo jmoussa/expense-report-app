@@ -20,7 +20,7 @@ class CategoryForm extends Component {
   handleCategory(event){
     event.preventDefault();
     var form = JSON.stringify({
-         category : event.target[0].value
+      name: event.target[0].value
     });
     var sentData = {
       method:'POST',
@@ -32,16 +32,15 @@ class CategoryForm extends Component {
         "Content-Type": "application/json"
       }
     }
-    fetch('http://127.0.0.1:3001/categories', sentData)
-      .then(response => { return response.json();})
-      .then(responseData => {return responseData;})
-      .then(data => {
-        this.setState({"status" : data});
-        if(this.state.status.status === "category success"){
-          this.props.isFinished("success");
+    fetch('http://127.0.0.1:3001/api/createCategory', sentData)
+      .then(response => { 
+        return response.json()
+      }).then(res=>{
+        if(res.name){
+          this.setState({'status': 'category success'})
+          this.props.isFinished('success');
         }
-        
-        }); 
+      })
   }
   
   render() {
