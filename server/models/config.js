@@ -1,10 +1,14 @@
 const Sequelize = require('sequelize')
-const USERNAME =  'root'
-const PASSWORD =  ''
-const DBNAME = 'finalProject'
-const HOST = 'localhost'
 
-const env= process.env.NODE_ENV || 'development';
+const DBconf = require('../.config.js')
+
+
+const USERNAME = DBconf.user 
+const PASSWORD = DBconf.password 
+const DBNAME = DBconf.database 
+const HOST = DBconf.host 
+
+const env = process.env.NODE_ENV || 'development';
 const connection  = new Sequelize(DBNAME, USERNAME, PASSWORD, {
     host: HOST,
     dialect: 'mysql',
